@@ -16,8 +16,8 @@
 (define-constant err-invalid-fee-rate (err u110))
 
 ;; Constants for validation
-(define-constant max-fee-rate uint u1000) ;; 10% max fee
-(define-constant max-price uint u100000000000) ;; Maximum reasonable price
+(define-constant max-fee-rate u1000) ;; 10% max fee
+(define-constant max-price u100000000000) ;; Maximum reasonable price
 (define-constant valid-chains (list u"ethereum" u"bitcoin" u"bsc" u"polygon"))
 
 ;; Data Variables
@@ -50,7 +50,7 @@
 (define-map user-balances principal uint)
 
 ;; Validation functions
-(define-private (is-valid-chain (chain (string-utf8 32)))
+(define-private (is-valid-chain (chain (string-utf8 8)))
     (is-some (index-of valid-chains chain))
 )
 
@@ -103,7 +103,7 @@
 (define-public (initiate-transfer 
     (amount uint)
     (recipient principal)
-    (target-chain (string-utf8 32))
+    (target-chain (string-utf8 8)) ;; Adjusted to match is-valid-chain
     (max-slippage uint)
 )
     (let (
