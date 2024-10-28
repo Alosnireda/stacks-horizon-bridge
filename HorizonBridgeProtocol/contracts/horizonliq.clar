@@ -92,7 +92,7 @@
         (asserts! (<= amount (var-get max-transfer-amount)) err-invalid-amount)
         (asserts! (check-slippage amount max-slippage) err-slippage-exceeded)
 
-        ;; Create pending transfer
+        ;; Create pending transfer - now using utf8 encoded string
         (map-set pending-transfers
             transfer-id
             {
@@ -100,7 +100,7 @@
                 recipient: recipient,
                 amount: final-amount,
                 target-chain: target-chain,
-                status: "pending"
+                status: u"pending"  ;; Changed to utf8 string literal
             }
         )
 
@@ -118,10 +118,10 @@
     )
         (asserts! (not (var-get bridge-paused)) err-bridge-paused)
 
-        ;; Update transfer status
+        ;; Update transfer status with utf8 string
         (map-set pending-transfers
             transfer-id
-            (merge transfer { status: "completed" })
+            (merge transfer { status: u"completed" })  ;; Changed to utf8 string literal
         )
 
         ;; Add amount to recipient balance
